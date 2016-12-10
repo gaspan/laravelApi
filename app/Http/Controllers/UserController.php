@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\Transformers\UserTransformer;
 use Auth;
@@ -25,6 +26,18 @@ class UserController extends Controller
         return fractal()
             ->item($user)
             ->transformWith(new UserTransformer)
+            ->includePosts()
+            ->toArray();
+    }
+
+    public function profileById(User $user, $id)
+    {
+        $user = $user->find($id);
+
+        return fractal()
+            ->item($user)
+            ->transformWith(new UserTransformer)
+            ->includePosts()
             ->toArray();
     }
 }
